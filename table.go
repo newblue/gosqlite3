@@ -29,3 +29,23 @@ func (t *Table) Rows(db *Database) (c int, e os.Error) {
 	})
 	return
 }
+
+func (t *Table) Exists (db *Database) ( exists bool, err os.Error ) {
+    st, err := db.Prepare ("SELECT COUNT(1) FROM sqlite_master WHERE name=?", t.Name)
+    if err != nil {
+        return
+    }
+
+    st.Step (func (st *Statement, values...interface{}){
+                if len(values) >= 1 {
+                    if v, ok := values[0].(int64); ok && v >= 1 {
+                        exists = true
+                    }
+                }
+            })
+    err = st.Finalize ()
+    if err != nil {
+        return
+    }
+    return
+}
