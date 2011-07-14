@@ -1,6 +1,6 @@
 include $(GOROOT)/src/Make.inc
 
-TARG=sqlite3
+TARG=newblue.sqlite3
 
 CGOFILES=\
 	sqlite3.go\
